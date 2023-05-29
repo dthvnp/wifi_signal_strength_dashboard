@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, jsonify
 import time
 import pywifi
 from flask import render_template
@@ -35,3 +35,8 @@ def display_signal_strength():
     data = cursor.fetchall()
     return render_template('dashboard.html', data=data)
 
+@views.route('/api/signal_data')
+def get_signal_data():
+    cursor.execute('SELECT id, ssid, strength, timestamp FROM signal_strength')
+    data = cursor.fetchall()
+    return jsonify(data)
